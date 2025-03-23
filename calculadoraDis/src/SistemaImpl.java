@@ -15,14 +15,14 @@ public class SistemaImpl implements Sistema {
 	@Override
 	public int calcularBase2(String numero, int base) {
 		// TODO Auto-generated method stub
+		int numParse = Integer.parseInt(numero);
 		if(base == 2) {
-			return Integer.parseInt(numero);
+			return numParse;
 			
 		} else if(base == 8) {
 			return Integer.parseInt(numero);
 			
 		} else if(base == 10) {
-			int numParse = Integer.parseInt(numero);
 			StringBuilder concatenados = new StringBuilder();
 			if (numParse == 0) {
 	            return 0;
@@ -44,8 +44,28 @@ public class SistemaImpl implements Sistema {
 	@Override
 	public double calcularBase8(String numero, int base) {
 		// TODO Auto-generated method stub
+		int numParse = Integer.parseInt(numero);
+		if(base == 2) {
+			return numParse;
+		}
+		
 		if(base == 8) {
-			return Double.parseDouble(numero);
+			return numParse;
+			
+		} else if(base == 10) {
+			StringBuilder concatenados = new StringBuilder();
+			if (numParse == 0) {
+	            return 0;
+	        }
+			while(numParse != 0) {
+				concatenados.append(numParse%8);
+				numParse = numParse/8;
+		} concatenados.reverse();
+		int octoResultado = Integer.parseInt(concatenados.toString());
+		  return octoResultado;
+		} else if(base == 16) {
+			return Integer.parseInt(numero);
+			
 		} else {
 			return 0;
 		}
@@ -80,8 +100,27 @@ public class SistemaImpl implements Sistema {
 	@Override
 	public double calcularBase16(String numero, int base) {
 		// TODO Auto-generated method stub
-		if(base == 16) {
+		int numParse = Integer.parseInt(numero);
+		if(base == 2) {
+			return numParse;
+		} else if(base == 8) {
+			return Integer.parseInt(numero);
+			
+		} else if(base == 10) {
+			StringBuilder concatenados = new StringBuilder();
+			if (numParse == 0) {
+	            return 0;
+	        }
+			while(numParse != 0) {
+				concatenados.append(numParse%16);
+				numParse = numParse/16;
+		} concatenados.reverse();
+		int hexaADecimal = Integer.parseInt(concatenados.toString());
+		return hexaADecimal;
+		
+		} if(base == 16) {
 			return Double.parseDouble(numero);
+			
 		} else {
 			return 0;
 		}
