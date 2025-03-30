@@ -33,25 +33,11 @@ public class SistemaImpl implements Sistema {
     public int calcularBase2(String numero, int base) {
         if(base == 2) {
             return Integer.parseInt(numero); // Si la base es 2, retorna el número tal cual
-        } else if(base == 8) {
-            return Integer.parseInt(numero); // INCOMPLETO PQ TENGO QUE AGARRAR EL STRING CONCATENADO Y CALCULARLO DE AHI*****************
         } else if(base == 10) {
-        	int numParse = Integer.parseInt(numero);
-            StringBuilder concatenados = new StringBuilder();
-            if (numParse == 0) {
-                return 0; // Si el número es 0, retorna 0
-            }
-            while(numParse != 0) {
-                concatenados.append(numParse % 2); // Agrega el residuo de la división por 2
-                numParse = numParse / 2; // Realiza la división por 2
-            }
-            concatenados.reverse(); // Invierte el resultado para obtener el número binario correcto
-            int binarioResultado = Integer.parseInt(concatenados.toString()); // Convierte a número binario
-            return binarioResultado;
-        } else if(base == 16) {
-            return Integer.parseInt(numero); // INCOMPLETO PQ TENGO QUE AGARRAR EL STRING CONCATENADO Y CALCULARLO DE AHI*******************
+        	return(base10ABaseX(numero, 2));
         } else {
-            return 0; // Si la base no es válida, retorna 0
+            String pivote = Integer.toString(baseXABase10(numero, base));
+        	return base10ABaseX(pivote, 2);
         }
     }
 
@@ -64,28 +50,13 @@ public class SistemaImpl implements Sistema {
      */
     @Override
     public double calcularBase8(String numero, int base) {
-        int numParse = Integer.parseInt(numero); // Convierte el número de cadena a entero
-        if(base == 2) {
-            return numParse; // Creo q no vimos de base 8 a base 2 XDDD tengo q buscar cmo hacerlo************
-        }
-        if(base == 8) {
-            return numParse; // Si la base es 8, retorna el número tal cual
+    	if(base == 8) {
+            return Integer.parseInt(numero); // Si la base es 8, retorna el número tal cual
         } else if(base == 10) {
-            StringBuilder concatenados = new StringBuilder();
-            if (numParse == 0) {
-                return 0; // Si el número es 0, retorna 0
-            }
-            while(numParse != 0) {
-                concatenados.append(numParse % 8); // Agrega el residuo de la división por 8
-                numParse = numParse / 8; // Realiza la división por 8
-            }
-            concatenados.reverse(); // Invierte el resultado para obtener el número octal correcto
-            int octoResultado = Integer.parseInt(concatenados.toString()); // Convierte a número
-            return octoResultado;
-        } else if(base == 16) {
-            return Integer.parseInt(numero); // Creo q no vimos de base 8 a base 16 XDDD tengo q buscar cmo hacerlo, aunque debiera ser la mitad del digito pero tan los caracteres raros************
+        	return(base10ABaseX(numero, 8));
         } else {
-            return 0; // Si la base no es válida, retorna 0
+            String pivote = Integer.toString(baseXABase10(numero, base));
+            return base10ABaseX(pivote, 8);
         }
     }
 
@@ -106,28 +77,15 @@ public class SistemaImpl implements Sistema {
     }
 
 	@Override
-	public double calcularBase16(String numero, int base) {
-	    int numParse = Integer.parseInt(numero); // Convierte el número de cadena a entero
-	    if(base == 2) {
-	        return numParse; 
-	    } else if(base == 8) {
-	        return Integer.parseInt(numero); 
-	    } else if(base == 10) {
-	        StringBuilder concatenados = new StringBuilder();
-	        if (numParse == 0) {
-	            return 0; // Si el número es 0, retorna 0
-	        }
-	        while(numParse != 0) {
-	            concatenados.append(numParse % 16); // Agrega el residuo de la división por 16
-	            numParse = numParse / 16; // Realiza la división por 16
-	        }
-	        concatenados.reverse(); // Invierte el resultado para obtener el número hexadecimal correcto
-	        int hexaADecimal = Integer.parseInt(concatenados.toString()); // Convierte a número
-	        return hexaADecimal; // Retorna el resultado en base 16   / Todo esto de aca ta malo kjjjjj es que aun no hago las conversiones de A = 10, B = 11 y asi, tendria q hacerlo cmo funcion creo yo
+	public String calcularBase16(String numero, int base) {
+	    if(base == 10) {
+	        return Integer.toString(base10ABaseX(numero, 16));
 	    } else if(base == 16) {
-	        return Double.parseDouble(numero); // Si la base es 16, retorna el número tal cual
+	        return (numero); // Si la base es 16, retorna el número tal cual
+	    } else {
+	    	String pivote = Integer.toString(baseXABase10(numero, base));
+	    	return Integer.toString(base10ABaseX(pivote, 16));
 	    }
-	    return 0; // Si la base no es válida, retorna 0
 	}
 
 	public int baseXABase10(String numero, int base) {
@@ -137,6 +95,20 @@ public class SistemaImpl implements Sistema {
         	baseXADecimal += (charADigito(cadenaNumeros[i]) * Math.pow(base, cadenaNumeros.length-i-1)); // Convierte binario a decimal
         }
         return baseXADecimal;
+	}
+	
+	public int base10ABaseX(String numero, int base) {
+		int numParse = Integer.parseInt(numero);
+        StringBuilder concatenados = new StringBuilder();
+        if (numParse == 0) {
+            return 0;
+        }
+        while(numParse != 0) {
+            concatenados.append(numParse % base);
+            numParse = numParse / base;
+        }
+        concatenados.reverse();
+        return (Integer.parseInt(concatenados.toString()));
 	}
 	
 	
