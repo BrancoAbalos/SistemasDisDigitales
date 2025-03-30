@@ -1,5 +1,6 @@
 import java.util.Iterator;
 
+
 public class SistemaImpl implements Sistema {
     
     // Instancia estática para garantizar que solo haya una instancia de SistemaImpl (Patrón Singleton)
@@ -30,12 +31,12 @@ public class SistemaImpl implements Sistema {
      */
     @Override
     public int calcularBase2(String numero, int base) {
-        int numParse = Integer.parseInt(numero); // Convierte el número de cadena a entero
         if(base == 2) {
-            return numParse; // Si la base es 2, retorna el número tal cual
+            return Integer.parseInt(numero); // Si la base es 2, retorna el número tal cual
         } else if(base == 8) {
             return Integer.parseInt(numero); // INCOMPLETO PQ TENGO QUE AGARRAR EL STRING CONCATENADO Y CALCULARLO DE AHI*****************
         } else if(base == 10) {
+        	int numParse = Integer.parseInt(numero);
             StringBuilder concatenados = new StringBuilder();
             if (numParse == 0) {
                 return 0; // Si el número es 0, retorna 0
@@ -97,28 +98,11 @@ public class SistemaImpl implements Sistema {
      */
     @Override
     public double calcularBase10(String numero, int base) {
-        if(base == 2) {
-            int binarioADecimal = 0;
-            char[] binarios = numero.toCharArray(); // Convierte el número binario en un arreglo de caracteres
-            for (int i = binarios.length-1; i >= 0; i--) {
-                if(Character.getNumericValue(binarios[i]) == 1) {
-                    binarioADecimal += (Character.getNumericValue(binarios[i]) * Math.pow(2, binarios.length-i-1)); // Convierte binario a decimal
-                }
-            }
-            return binarioADecimal; // Retorna el resultado en base 10
-        } else if(base == 8) {
-            int octaADecimal = 0;
-            char[] octa = numero.toCharArray(); // Convierte el número octal en un arreglo de caracteres
-            for (int i = octa.length-1; i >= 0; i--) {
-                octaADecimal += (Character.getNumericValue(octa[i]) * Math.pow(8, octa.length-i-1)); // Convierte octal a decimal
-            }
-            return octaADecimal; // Retorna el resultado en base 10
-        } else if(base == 10) {
-            return Double.parseDouble(numero); // Si la base es 10, retorna el número tal cual
-        } else if(base == 16) {
-            return Double.parseDouble(numero); // El problema de los digitos raros por aca zzzzzzz*********************
+        if(base == 10) {
+            return Double.parseDouble(numero);
+        } else {
+            return baseXABase10(numero, base);
         }
-        return base; // Si la base no es válida, retorna la base como valor por defecto
     }
 
 	@Override
@@ -144,5 +128,38 @@ public class SistemaImpl implements Sistema {
 	        return Double.parseDouble(numero); // Si la base es 16, retorna el número tal cual
 	    }
 	    return 0; // Si la base no es válida, retorna 0
+	}
+
+	public int baseXABase10(String numero, int base) {
+		int baseXADecimal = 0;
+        char[] cadenaNumeros = numero.toCharArray();
+        for (int i = cadenaNumeros.length-1; i >= 0; i--) {
+        	baseXADecimal += (charADigito(cadenaNumeros[i]) * Math.pow(base, cadenaNumeros.length-i-1)); // Convierte binario a decimal
+        }
+        return baseXADecimal;
+	}
+	
+	
+	
+	public int charADigito(char numero) {
+	    switch (numero) {
+	    	case '0': return 0;
+	    	case '1': return 1;
+	    	case '2': return 2;
+	    	case '3': return 3;
+	    	case '4': return 4;
+	    	case '5': return 5;
+        	case '6': return 6;
+        	case '7': return 7;
+        	case '8': return 8;
+        	case '9': return 9;
+	        case 'A': return 10;
+	        case 'B': return 11;
+	        case 'C': return 12;
+	        case 'D': return 13;
+	        case 'E': return 14;
+	        case 'F': return 15;
+	        default: return -1;  // Si el valor no es válido
+	    }
 	}
 }
