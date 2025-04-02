@@ -3,8 +3,13 @@ import java.awt.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+public class Panel {
     public static void main(String[] args) {
+
+
+        //CreacionSistema
+        Sistema sistema = SistemaImpl.getInstancia();
+
 
         //Frame
         JFrame frame = new JFrame("Calculadora");
@@ -46,28 +51,23 @@ public class Main {
         tf[0] = new JTextField();
         tf[0].setBounds(20, 230, 300, 30);
         tf[0].setEditable(false);
-        tf[0].disable();
+        //tf[0].disable();
 
         tf[1] = new JTextField();
         tf[1].setBounds(20, 330, 300, 30);
         tf[1].setEditable(false);
-        tf[1].disable();
+        //tf[1].disable();
 
         tf[2] = new JTextField();
         tf[2].setBounds(20, 430, 300, 30);
         tf[2].setEditable(false);
-        tf[2].disable();
+        //tf[2].disable();
 
         tf[3] = new JTextField();
         tf[3].setBounds(20, 530, 300, 30);
         tf[3].setEditable(false);
-        tf[3].disable();
+        //tf[3].disable();
 
-
-
-        //Panel
-        CalculatorPanel panel = new CalculatorPanel();
-        frame.setLocationRelativeTo(null);
 
         //CeldasTexto
         JTextField[] textField = new JTextField[6];
@@ -79,8 +79,6 @@ public class Main {
         //Button
         JButton button = new JButton("Transformar");
         button.setBounds(80, 100, 300, 30);
-        //AccionDeTransformar
-        //button.addActionListener(e -> );
 
         //DisplayButton
         JButton buttonDisplay = new JButton("2");
@@ -90,20 +88,22 @@ public class Main {
         //
         JMenuItem item2 = new JMenuItem("Base 2");
         JMenuItem item8 = new JMenuItem("Base 8");
+        JMenuItem item10 = new JMenuItem("Base 10");
         JMenuItem item16 = new JMenuItem("Base 16");
 
         popup.add(item2);
         popup.add(item8);
+        popup.add(item10);
         popup.add(item16);
 
         buttonDisplay.addActionListener(e -> popup.show(buttonDisplay, 0, buttonDisplay.getHeight()));
         item2.addActionListener(e -> buttonDisplay.setText("2"));
         item8.addActionListener(e -> buttonDisplay.setText("8"));
+        item10.addActionListener(e -> buttonDisplay.setText("10"));
         item16.addActionListener(e -> buttonDisplay.setText("16"));
 
 
         frame.add(buttonDisplay);
-        frame.add(panel);
         frame.add(button);
         for (int i = 0; i < label.length; i++) {
             if (label[i] != null) {
@@ -118,10 +118,34 @@ public class Main {
                 frame.add(tf[i]);
             }
         }
-
+        //AccionDeTransformar
+        if (buttonDisplay.getText().equals("2")) {
+            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),2)));
+            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),2)));
+            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),2)));
+            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),2)));
+        }
+        if (buttonDisplay.getText().equals("8")) {
+            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),8)));
+            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),8)));
+            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),8)));
+            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),8)));
+        }
+        if (buttonDisplay.getText().equals("10")) {
+            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),10)));
+            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),10)));
+            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),10)));
+            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),10)));
+        }
+        if (buttonDisplay.getText().equals("16")) {
+            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),16)));
+            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),16)));
+            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),16)));
+            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),16)));
+        }
 
         frame.setVisible(true);
 
-        
+
     }
 }
