@@ -93,8 +93,7 @@ public class SistemaImpl implements Sistema {
 
  // Convierte la parte entera de cualquier base a cualquier otra base
     private String convertirParteEnteraABaseX(String parteEntera, int base, int baseDestino) {
-        // Primero, convertimos el número de la base original (base) a base 10
-        int numero = Integer.parseInt(parteEntera, base);  // Usamos la base especificada aquí para convertir correctamente
+        int numero = Integer.parseInt(parteEntera, base); 
         return base10ABaseX(String.valueOf(numero), baseDestino);
     }
 
@@ -103,20 +102,19 @@ public class SistemaImpl implements Sistema {
         StringBuilder resultado = new StringBuilder();
         double parteDecimalNumero = 0;
 
-        // Convertir la parte decimal a su valor en base 10
+
         for (int i = 0; i < parteDecimal.length(); i++) {
             char digito = parteDecimal.charAt(i);
-            parteDecimalNumero += charADigito(digito) * Math.pow(base, -(i + 1));  // Parte decimal en base 10
+            parteDecimalNumero += charADigito(digito) * Math.pow(base, -(i + 1));
         }
 
         int precision = 10; // Número de dígitos decimales a mostrar
 
-        // Convertir la parte decimal (en base 10) a la base de destino
         while (parteDecimalNumero > 0 && precision-- > 0) {
             parteDecimalNumero *= baseDestino;
             int entero = (int) parteDecimalNumero;
-            resultado.append(digitoAChar(entero));  // Añadir el dígito correspondiente
-            parteDecimalNumero -= entero;  // Restar la parte entera obtenida para seguir con la fracción
+            resultado.append(digitoAChar(entero));
+            parteDecimalNumero -= entero; 
         }
 
         return resultado.toString();
