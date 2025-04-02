@@ -1,20 +1,9 @@
-import java.util.Iterator;
-
-
 public class SistemaImpl implements Sistema {
-    
-    // Instancia estática para garantizar que solo haya una instancia de SistemaImpl (Patrón Singleton)
+
     private static SistemaImpl instancia;
-    
-    // Constructor privado para evitar instanciación externa
+
     private SistemaImpl() {}
-    
-    /**
-     * Método que devuelve la instancia única de la clase SistemaImpl.
-     * Si no se ha creado previamente, la crea y devuelve.
-     *
-     * @return Instancia única de SistemaImpl
-     */
+
     public static SistemaImpl getInstancia() {
         if(instancia == null) {
             instancia = new SistemaImpl(); // Se crea la instancia si no existe
@@ -22,116 +11,166 @@ public class SistemaImpl implements Sistema {
         return instancia;
     }
 
-    /**
-     * Convierte un número a base 2 desde una base cualquiera
-     *
-     * @param numero Número en formato de cadena
-     * @param base Base en la que se encuentra el número
-     * @return El número convertido a base 2
-     */
+
     @Override
-    public int calcularBase2(String numero, int base) {
-        if(base == 2) {
-            return Integer.parseInt(numero); // Si la base es 2, retorna el número tal cual
-        } else if(base == 10) {
-        	return(base10ABaseX(numero, 2));
+    public String calcularBase2(String numero, int base) {
+        String[] partes = numero.split(",");
+        String parteEntera = partes[0];
+        String parteDecimal = "";
+        if (partes.length > 1) {
+        	parteDecimal = partes[1];
         } else {
-            String pivote = Integer.toString(baseXABase10(numero, base));
-        	return base10ABaseX(pivote, 2);
+        	parteDecimal = "0";
         }
+        String parteEnteraBin = convertirParteEnteraABaseX(parteEntera, base, 2);
+        String parteDecimalBin = convertirParteDecimalABaseX(parteDecimal, base, 2);
+        String resultado = parteEnteraBin;
+        if (!parteDecimalBin.isEmpty()) {
+            resultado += "," + parteDecimalBin; // Solo agrega la parte decimal si no está vacía
+        }
+
+        return resultado;
     }
 
-    /**
-     * Convierte un número A base 8 desde una base cualquiera
-     *
-     * @param numero Número en formato de cadena
-     * @param base Base en la que se encuentra el número
-     * @return El número convertido en base 8
-     */
     @Override
-    public double calcularBase8(String numero, int base) {
-    	if(base == 8) {
-            return Integer.parseInt(numero); // Si la base es 8, retorna el número tal cual
-        } else if(base == 10) {
-        	return(base10ABaseX(numero, 8));
+    public String calcularBase8(String numero, int base) {
+        String[] partes = numero.split(",");
+        String parteEntera = partes[0];
+        String parteDecimal = "";
+        if (partes.length > 1) {
+        	parteDecimal = partes[1];
         } else {
-            String pivote = Integer.toString(baseXABase10(numero, base));
-            return base10ABaseX(pivote, 8);
+        	parteDecimal = "0";
         }
+        String parteEnteraOct = convertirParteEnteraABaseX(parteEntera, base, 8);
+        String parteDecimalOct = convertirParteDecimalABaseX(parteDecimal, base, 8);
+        String resultado = parteEnteraOct;
+        if (!parteDecimalOct.isEmpty()) {
+            resultado += "," + parteDecimalOct; // Solo agrega la parte decimal si no está vacía
+        }
+        return resultado;
     }
 
-    /**
-     * Convierte un número a base 10 de cualquier base
-     *
-     * @param numero Número en formato de cadena
-     * @param base Base en la que se encuentra el número
-     * @return El número convertido a base 10
-     */
+    
     @Override
-    public double calcularBase10(String numero, int base) {
-        if(base == 10) {
-            return Double.parseDouble(numero);
+    public String calcularBase10(String numero, int base) {
+        String[] partes = numero.split(",");
+        String parteEntera = partes[0];
+        String parteDecimal = "";
+        if (partes.length > 1) {
+        	parteDecimal = partes[1];
         } else {
-            return baseXABase10(numero, base);
+        	parteDecimal = "0";
         }
+        String parteEnteraDecimal = String.valueOf(baseXABase10(parteEntera, base));
+        String parteDecimalDecimal = calcularParteDecimalEnBase10(parteDecimal, base);
+        String resultado = parteEnteraDecimal;
+        if (!parteDecimalDecimal.isEmpty()) {
+            resultado += "," + parteDecimalDecimal; // Solo agrega la parte decimal si no está vacía
+        }
+        return resultado;
     }
 
-	@Override
-	public String calcularBase16(String numero, int base) {
-	    if(base == 10) {
-	        return Integer.toString(base10ABaseX(numero, 16));
-	    } else if(base == 16) {
-	        return (numero); // Si la base es 16, retorna el número tal cual
-	    } else {
-	    	String pivote = Integer.toString(baseXABase10(numero, base));
-	    	return Integer.toString(base10ABaseX(pivote, 16));
-	    }
-	}
+    @Override
+    public String calcularBase16(String numero, int base) {
+        String[] partes = numero.split(",");
+        String parteEntera = partes[0];
+        String parteDecimal = "";
+        if (partes.length > 1) {
+        	parteDecimal = partes[1];
+        } else {
+        	parteDecimal = "0";
+        }
+        String parteEnteraHex = convertirParteEnteraABaseX(parteEntera, base, 16);
+        String parteDecimalHex = convertirParteDecimalABaseX(parteDecimal, base, 16);
+        String resultado = parteEnteraHex;
+        if (!parteDecimalHex.isEmpty()) {
+            resultado += "," + parteDecimalHex; // Solo agrega la parte decimal si no está vacía
+        }
+        return resultado;
+    }
 
-	public int baseXABase10(String numero, int base) {
-		int baseXADecimal = 0;
+
+ // Convierte la parte entera de cualquier base a cualquier otra base
+    private String convertirParteEnteraABaseX(String parteEntera, int base, int baseDestino) {
+        // Primero, convertimos el número de la base original (base) a base 10
+        int numero = Integer.parseInt(parteEntera, base);  // Usamos la base especificada aquí para convertir correctamente
+        return base10ABaseX(String.valueOf(numero), baseDestino);
+    }
+
+
+    private String convertirParteDecimalABaseX(String parteDecimal, int base, int baseDestino) {
+        StringBuilder resultado = new StringBuilder();
+        double parteDecimalNumero = 0;
+
+        // Convertir la parte decimal a su valor en base 10
+        for (int i = 0; i < parteDecimal.length(); i++) {
+            char digito = parteDecimal.charAt(i);
+            parteDecimalNumero += charADigito(digito) * Math.pow(base, -(i + 1));  // Parte decimal en base 10
+        }
+
+        int precision = 10; // Número de dígitos decimales a mostrar
+
+        // Convertir la parte decimal (en base 10) a la base de destino
+        while (parteDecimalNumero > 0 && precision-- > 0) {
+            parteDecimalNumero *= baseDestino;
+            int entero = (int) parteDecimalNumero;
+            resultado.append(digitoAChar(entero));  // Añadir el dígito correspondiente
+            parteDecimalNumero -= entero;  // Restar la parte entera obtenida para seguir con la fracción
+        }
+
+        return resultado.toString();
+    }
+
+    // Convierte un número fraccionario en base X a base 10
+    private String calcularParteDecimalEnBase10(String parteDecimal, int base) {
+        double resultado = 0;
+        for (int i = 0; i < parteDecimal.length(); i++) {
+            char digito = parteDecimal.charAt(i);
+            resultado += charADigito(digito) * Math.pow(base, -(i + 1));
+        }
+        return String.format("%.10f", resultado).substring(2); // Devolver solo los decimales
+    }
+
+    // Convierte un número de base X a base 10
+    public int baseXABase10(String numero, int base) {
+        int baseXADecimal = 0;
         char[] cadenaNumeros = numero.toCharArray();
-        for (int i = cadenaNumeros.length-1; i >= 0; i--) {
-        	baseXADecimal += (charADigito(cadenaNumeros[i]) * Math.pow(base, cadenaNumeros.length-i-1)); // Convierte binario a decimal
+        for (int i = cadenaNumeros.length - 1; i >= 0; i--) {
+            baseXADecimal += (charADigito(cadenaNumeros[i]) * Math.pow(base, cadenaNumeros.length - i - 1)); // Convierte a base 10
         }
         return baseXADecimal;
-	}
-	
-	public int base10ABaseX(String numero, int base) {
-		int numParse = Integer.parseInt(numero);
-        StringBuilder concatenados = new StringBuilder();
+    }
+
+
+    public String base10ABaseX(String numero, int base) {
+        int numParse = Integer.parseInt(numero);
+        StringBuilder result = new StringBuilder();
         if (numParse == 0) {
-            return 0;
+            return "0";
         }
         while(numParse != 0) {
-            concatenados.append(numParse % base);
+            result.append(digitoAChar(numParse % base));
             numParse = numParse / base;
         }
-        concatenados.reverse();
-        return (Integer.parseInt(concatenados.toString()));
-	}
-	
-	
-	
-	public int charADigito(char numero) {
-	    switch (numero) {
-	    	case '0': return 0;
-	    	case '1': return 1;
-	    	case '2': return 2;
-	    	case '3': return 3;
-	    	case '4': return 4;
-	    	case '5': return 5;
-        	case '6': return 6;
-        	case '7': return 7;
-        	case '8': return 8;
-        	case '9': return 9;
-	        case 'A': return 10;
-	        case 'B': return 11;
-	        case 'C': return 12;
-	        case 'D': return 13;
-	        case 'E': return 14;
-	        case 'F': return 15;
-	        default: return -1;  // Si el valor no es válido
-	    }
-	}
+        result.reverse();
+        return result.toString();
+    }
+
+    public char digitoAChar(int numero) {
+        if (numero < 10) {
+            return (char) ('0' + numero); // Para dígitos 0-9
+        } else {
+            return (char) ('A' + (numero - 10)); // Para dígitos 10-15 (A-F)
+        }
+    }
+
+    public int charADigito(char c) {
+        if (c >= '0' && c <= '9') {
+            return c - '0'; // Para caracteres '0'-'9'
+        } else if (c >= 'A' && c <= 'F') {
+            return c - 'A' + 10; // Para caracteres 'A'-'F'
+        }
+        throw new IllegalArgumentException("Carácter no válido para conversión: " + c);
+    }
 }
