@@ -92,13 +92,13 @@ public class SistemaImpl implements Sistema {
 
 
  // Convierte la parte entera de cualquier base a cualquier otra base
-    private String convertirParteEnteraABaseX(String parteEntera, int base, int baseDestino) {
+    public String convertirParteEnteraABaseX(String parteEntera, int base, int baseDestino) {
         int numero = Integer.parseInt(parteEntera, base); 
         return base10ABaseX(String.valueOf(numero), baseDestino);
     }
 
 
-    private String convertirParteDecimalABaseX(String parteDecimal, int base, int baseDestino) {
+    public String convertirParteDecimalABaseX(String parteDecimal, int base, int baseDestino) {
         StringBuilder resultado = new StringBuilder();
         double parteDecimalNumero = 0;
 
@@ -121,7 +121,7 @@ public class SistemaImpl implements Sistema {
     }
 
     // Convierte un número fraccionario en base X a base 10
-    private String calcularParteDecimalEnBase10(String parteDecimal, int base) {
+    public String calcularParteDecimalEnBase10(String parteDecimal, int base) {
         double resultado = 0;
         for (int i = 0; i < parteDecimal.length(); i++) {
             char digito = parteDecimal.charAt(i);
