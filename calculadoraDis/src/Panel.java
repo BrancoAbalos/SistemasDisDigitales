@@ -51,22 +51,22 @@ public class Panel {
         tf[0] = new JTextField();
         tf[0].setBounds(20, 230, 300, 30);
         tf[0].setEditable(false);
-        //tf[0].disable();
+
 
         tf[1] = new JTextField();
         tf[1].setBounds(20, 330, 300, 30);
         tf[1].setEditable(false);
-        //tf[1].disable();
+
 
         tf[2] = new JTextField();
         tf[2].setBounds(20, 430, 300, 30);
         tf[2].setEditable(false);
-        //tf[2].disable();
+
 
         tf[3] = new JTextField();
         tf[3].setBounds(20, 530, 300, 30);
         tf[3].setEditable(false);
-        //tf[3].disable();
+
 
 
         //CeldasTexto
@@ -119,30 +119,14 @@ public class Panel {
             }
         }
         //AccionDeTransformar
-        if (buttonDisplay.getText().equals("2")) {
-            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),2)));
-            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),2)));
-            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),2)));
-            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),2)));
-        }
-        if (buttonDisplay.getText().equals("8")) {
-            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),8)));
-            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),8)));
-            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),8)));
-            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),8)));
-        }
-        if (buttonDisplay.getText().equals("10")) {
-            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),10)));
-            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),10)));
-            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),10)));
-            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),10)));
-        }
-        if (buttonDisplay.getText().equals("16")) {
-            button.addActionListener(e -> tf[0].setText(sistema.calcularBase2(textField[0].getText(),16)));
-            button.addActionListener(e -> tf[1].setText(sistema.calcularBase8(textField[0].getText(),16)));
-            button.addActionListener(e -> tf[2].setText(sistema.calcularBase10(textField[0].getText(),16)));
-            button.addActionListener(e -> tf[3].setText(sistema.calcularBase16(textField[0].getText(),16)));
-        }
+        button.addActionListener(e -> {
+            int base = Integer.parseInt(buttonDisplay.getText());
+            tf[0].setText(sistema.calcularBase2(textField[0].getText(), base));
+            tf[1].setText(sistema.calcularBase8(textField[0].getText(), base));
+            tf[2].setText(sistema.calcularBase10(textField[0].getText(), base));
+            tf[3].setText(sistema.calcularBase16(textField[0].getText(), base));
+        });
+
 
         frame.setVisible(true);
 
