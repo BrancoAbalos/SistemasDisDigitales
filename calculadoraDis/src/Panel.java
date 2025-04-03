@@ -3,8 +3,8 @@ import java.awt.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Panel {
-    public static void main(String[] args) {
+public class Main {
+    public static void Panel(String[] args) {
 
 
         //CreacionSistema
@@ -12,11 +12,12 @@ public class Panel {
 
 
         //Frame
-        JFrame frame = new JFrame("Calculadora");
+        JFrame frame = new JFrame("DinoCalculadora");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLayout(null);
         frame.setSize(500, 700);
+        frame.setLocationRelativeTo(null);
 
         //Texto
         JLabel[] label = new JLabel[6];
@@ -66,6 +67,30 @@ public class Panel {
         tf[3] = new JTextField();
         tf[3].setBounds(20, 530, 300, 30);
         tf[3].setEditable(false);
+
+
+        //displayImage
+        SwingUtilities.invokeLater(() -> {
+            ImagePanel[] imagePanel = new ImagePanel[4];
+            imagePanel[0] = new ImagePanel("src/resources/brontosaurus-37797_1920.png", 150, 250);
+            imagePanel[0].setBounds(320, 400, 150, 250); // Ajustar las coordenadas según el diseño
+
+            imagePanel[1] = new ImagePanel("src/resources/animal-1295637_1920.png", 80, 80);
+            imagePanel[1].setBounds(200, 150, 80, 80); // Ajustar las coordenadas según el diseño
+
+            imagePanel[2] = new ImagePanel("src/resources/dinosaur3.png", 120, 120);
+            imagePanel[2].setBounds(200, 335, 120, 120); // Ajustar las coordenadas según el diseño
+
+            imagePanel[3] = new ImagePanel("src/resources/dinosaur4.png", 100, 100);
+            imagePanel[3].setBounds(200, 455, 120, 120); // Ajustar las coordenadas según el diseño
+
+
+            frame.add(imagePanel[0]);
+            frame.add(imagePanel[1]);
+            frame.add(imagePanel[2]);
+            frame.add(imagePanel[3]);
+        });
+
 
 
 
